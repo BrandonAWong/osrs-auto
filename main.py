@@ -10,8 +10,7 @@ def main():
     if system() == "Linux":
         run(["sudo modprobe -i uinput"], shell=True)
     app: App = App()
-    main_menu: MainMenu = MainMenu(app)  
-    main_menu.pack()
+    MainMenu(app).pack()
     app.run()
 
 if __name__ == "__main__":

@@ -4,6 +4,7 @@ from StopThread import StopThread
 
 from App import App
 from Menu import Menu
+import MainMenu
 
 class StopMenu(Menu):
     """ Initial application menu, displays basic program information and start button """
@@ -20,4 +21,6 @@ class StopMenu(Menu):
     def stop_thread(self):
         self.destroy()
         self.thread.stop()
-        # show mainmenu
+        self.thread.join()
+        MainMenu.MainMenu(self.app).pack()
+

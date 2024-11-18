@@ -18,14 +18,15 @@ def moveTo(x: int, y: int) -> None:
             if cur_x == x and cur_y == y:
                 break
 
-            move_value = (count // 125) + 1
+            move_value = (count // 100) + 1
             move_x = move_value if cur_x < x else -move_value if cur_x > x else 0
             move_y = move_value if cur_y < y else -move_value if cur_y > y else 0 
-
             device.emit(uinput.REL_X, move_x)
             device.emit(uinput.REL_Y, move_y)
 
-            count += 1 if count < 250 else -count
+            count += 1 
+            if x - 20 <= cur_x <= x+ 20 and y - 20 <= cur_y <= y + 20:
+                count = 0
             sleep(uniform(0.001, 0.01))
 
 def press(key: "str") -> None:

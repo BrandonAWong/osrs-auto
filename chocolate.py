@@ -17,20 +17,44 @@ else:
     from inputs_linux import click, press, moveTo
 
 
-def auto_chocolate():
-    # find banker
+def auto_chocolate(banker_loc: tuple[int, int]):
+    """ Automation of chocolate processing """
+    # Acts as a way to also focus the game
+    #get_banked_chocolate(banker_loc)
     open_inventory()
     sleep(uniform(0.25, 1))
-
+    
     try:
-        moveTo(*get_random_cords(find("./images/knife.png", confidence=0.5)))
-        click(clicks=1)
-        moveTo(*get_random_cords(find("./images/chocolate_bar.png", confidence=0.8)))
-        click(clicks=1)
-        for _ in range(randint(48, 50)):
-            if current_thread().stopped:
-                return
-            sleep(uniform(1, 1.2))
+        knife_loc: Box = find("./images/knife.png", confidence=0.5)
+        choco_loc: Box = find("./images/chocolate_bar.png", confidence=0.8)
+        while True:
+            process_chocolate(knife_loc, choco_loc)
+            for _ in range(randint(48, 50)):
+                if current_thread().stopped:
+                    return
+                sleep(uniform(1, 1.2))
+            #get_banked_chocolate(banker_loc)
     except ImageNotFoundException:
         return
 
+def get_banked_chocolate(banker_loc: tuple[int, int]) -> None:
+    moveTo(banker_loc[0] + randint(-5, 5), banker_loc[1] + randint(-5, 5))
+    click()
+    moveTo(*get_random_cords(find("./images/chocolate_bar.png", confidence=0.8)))
+    click()
+    sleep(uniform(0.3, 1))
+    press("esc")
+
+def process_chocolate(knife_loc: Box, choco_loc: Box) -> None:
+    moveTo(*get_random_cords(knife_loc))
+    click()
+    moveTo(*get_random_cords(choco_loc))
+    click()
+
+
+def check_chocolate_exists() -> bool:
+    try:
+        find("./images/chocolate_bar.png", confidence=0.8)
+        return True
+    except ImageNotFoundException:
+        return False

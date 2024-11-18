@@ -34,6 +34,7 @@ class MainMenu(Menu):
         pointer_menu: PointerLocationMenu = PointerLocationMenu(self.app, "banker")
         pointer_menu.pack()
         loc = pointer_menu.get_position()
+        print(loc)
 
         chocolate_thread: StopThread = StopThread(target=auto_chocolate, args=[loc])
         stop_menu: StopMenu = StopMenu(self.app, chocolate_thread)

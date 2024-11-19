@@ -31,14 +31,17 @@ class MainMenu(Menu):
     def start_chocolate(self):
         self.pack_forget()
 
-        pointer_menu: PointerLocationMenu = PointerLocationMenu(self.app, "banker")
+
+        loc = [0, 0]
+        pointer_menu: PointerLocationMenu = PointerLocationMenu(self.app, None, "banker")
+        loc_thread: StopThread = StopThread(target=pointer_menu.get_position, args=[loc])
+        pointer_menu.thread = loc_thread
         pointer_menu.pack()
-        loc = pointer_menu.get_position()
-        print(loc)
+        loc_thread.start()
+        pointer_menu.frame.wait_window()
+        loc_thread.join()
 
         chocolate_thread: StopThread = StopThread(target=auto_chocolate, args=[loc])
         stop_menu: StopMenu = StopMenu(self.app, chocolate_thread)
         stop_menu.pack()
-
         chocolate_thread.start()
-

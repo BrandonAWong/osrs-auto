@@ -36,5 +36,5 @@ def press(key: "str") -> None:
         device.emit_click(ukey)
 
 def wait_for_device_ready() -> None:
-    sleep(0.1)
+    sleep(0.3)
 

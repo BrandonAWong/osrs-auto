@@ -2,9 +2,9 @@ from threading import current_thread
 
 from platform import system
 from pyscreeze import Box
-from pyautogui import ImageNotFoundException
+from pyautogui import ImageNotFoundException, easeInQuad, easeOutQuad, easeInOutQuad, easeInBounce, easeInElastic
 
-from random import randint, uniform
+from random import randint, uniform, choice
 from time import sleep
 
 from game_actions import focus_game, open_inventory
@@ -39,28 +39,28 @@ def auto_chocolate(banker_loc: tuple[int, int]):
         return
 
 def get_banked_chocolate(banker_loc: tuple[int, int], choco_loc: Box=None) -> None:
-    moveTo(banker_loc[0] + randint(-5, 5), banker_loc[1] + randint(-5, 5))
+    moveTo(banker_loc[0] + randint(-5, 5), banker_loc[1] + randint(-5, 5), randint(1, 2), get_random_ease())
     sleep(uniform(0.5, 1.2))
     click()
     sleep(uniform(0.5, 1.2))
 
     # deposit
     if choco_loc is not None:
-        moveTo(*get_random_cords(choco_loc))
+        moveTo(*get_random_cords(choco_loc), randint(1, 2))
         sleep(uniform(0.5, 1.2))
         click()
 
-    moveTo(*get_random_cords(find("./images/chocolate_bar.png", confidence=0.8)))
+    moveTo(*get_random_cords(find("./images/chocolate_bar.png", confidence=0.8)), randint(1, 3), get_random_ease())
     sleep(uniform(0.5, 1.2))
     click()
     sleep(uniform(0.3, 1))
     press("esc")
 
 def process_chocolate(knife_loc: Box, choco_loc: Box) -> None:
-    moveTo(*get_random_cords(knife_loc))
+    moveTo(*get_random_cords(knife_loc), randint(1, 3), get_random_ease())
     sleep(uniform(0.5, 1.2))
     click()
-    moveTo(*get_random_cords(choco_loc))
+    moveTo(*get_random_cords(choco_loc), randint(1, 3), get_random_ease())
     sleep(uniform(0.5, 1.2))
     click()
 
@@ -70,3 +70,6 @@ def check_chocolate_exists() -> bool:
         return True
     except ImageNotFoundException:
         return False
+
+def get_random_ease():
+    return choice((easeInQuad, easeOutQuad, easeInOutQuad, easeInBounce, easeInElastic))

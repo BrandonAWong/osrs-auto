@@ -7,8 +7,8 @@ from random_cords import get_random_cords
 if system() == "Windows":
     from pyautogui import locateOnScreen as find, click, press, moveTo
 else:
-    from locate_linux import find
-    from inputs_linux import click, press, moveTo
+    from linux.locate_linux import find
+    from linux.inputs_linux import click, press, moveTo
 
 
 def focus_game() -> bool:
@@ -19,7 +19,7 @@ def focus_game() -> bool:
     checks: tuple[str, ...] = ("all_chat", "all_chat_inactive", "attack_menu")
     for check in checks:
         try:
-            moveTo(*get_random_cords(find(f"./images/{check}.png", confidence=0.6)))
+            moveTo(*get_random_cords(find(f"./static/{check}.png", confidence=0.6)))
             click(clicks=1)
             return True
         except ImageNotFoundException:
@@ -29,7 +29,7 @@ def focus_game() -> bool:
 def open_inventory() -> None:
     """ If inventory is not open, then open it """
     try:
-        find("./images/empty_inventory.png", confidence=0.5)
+        find("./static/empty_inventory.png", confidence=0.5)
     except ImageNotFoundException:
         press("esc")
 

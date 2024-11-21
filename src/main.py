@@ -3,7 +3,7 @@ from tkinter import Tk
 from subprocess import run
 
 from App import App
-from MainMenu import MainMenu
+from Menus.MainMenu import MainMenu
 
 
 def main():

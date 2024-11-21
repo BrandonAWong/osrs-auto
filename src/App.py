@@ -1,4 +1,4 @@
-from tkinter import Tk, Button, Frame, Label
+from tkinter import Tk
 
 class App:
     """ Host for root and initialization of main menu """

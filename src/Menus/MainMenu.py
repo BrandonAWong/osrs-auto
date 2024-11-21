@@ -1,15 +1,14 @@
 from tkinter import Button, Label
 
-from pyscreeze import Point
-
 from App import App
-from Menu import Menu
-from PointerLocationMenu import PointerLocationMenu
-from StopMenu import StopMenu
+from Menus.Menu import Menu
+from Menus.ChoiceMenu import ChoiceMenu
+from Menus.PointerLocationMenu import PointerLocationMenu
+from Menus.StopMenu import StopMenu
 
 from StopThread import StopThread
 
-from chocolate import auto_chocolate
+from GameActions.chocolate import auto_chocolate
 
 class MainMenu(Menu):
     """ Initial application menu, displays basic program information and start button """
@@ -24,24 +23,24 @@ class MainMenu(Menu):
         self.autorun_button: Button = Button(self.frame, text="autorun")
         
     def pack(self):
-        self.app.root.geometry("400x300")
+        self.app.root.geometry("100x25")
         self.chocolate_button.pack()
         self.frame.pack()
 
     def start_chocolate(self):
         self.pack_forget()
 
+        choice_menu: ChoiceMenu = ChoiceMenu(self.app, "random", "slow", "fast")
+        choice_menu.pack()
+        choice_menu.frame.wait_window()
 
-        loc = [0, 0]
-        pointer_menu: PointerLocationMenu = PointerLocationMenu(self.app, None, "banker")
-        loc_thread: StopThread = StopThread(target=pointer_menu.get_position, args=[loc])
-        pointer_menu.thread = loc_thread
+        pointer_menu: PointerLocationMenu = PointerLocationMenu(self.app, "banker")
         pointer_menu.pack()
-        loc_thread.start()
         pointer_menu.frame.wait_window()
-        loc_thread.join()
 
-        chocolate_thread: StopThread = StopThread(target=auto_chocolate, args=[loc])
+        chocolate_thread: StopThread = StopThread(target=auto_chocolate, args=[pointer_menu.loc, choice_menu.choice], daemon=True)
         stop_menu: StopMenu = StopMenu(self.app, chocolate_thread)
         stop_menu.pack()
-        chocolate_thread.start()
+        stop_menu.frame.wait_window()
+
+        self.pack()

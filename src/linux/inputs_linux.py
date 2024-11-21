@@ -9,7 +9,7 @@ def click(clicks: int=1) -> None:
         for _ in range(clicks):
             device.emit(uinput.BTN_LEFT, 1)
 
-def moveTo(x: int, y: int) -> None:
+def moveTo(x: int, y: int, *args) -> None:
     with uinput.Device([uinput.REL_X, uinput.REL_Y, uinput.BTN_MOUSE]) as device:
         wait_for_device_ready()
         count = 0

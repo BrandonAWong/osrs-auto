@@ -68,18 +68,16 @@ def process_chocolate_slow(knife_loc: Box, choco_loc: Box):
         sleep(uniform(1, 1.2))
 
 def process_chocolate_fast(knife_loc: Box, choco_loc: Box):
-    for _ in range(randint(15, 17)):
+    for _ in range(randint(24, 25)):
         if current_thread().stopped:
             return
         process_chocolate(knife_loc, choco_loc)
         sleep(uniform(0.1, 0.3))
 
 def process_chocolate(knife_loc: Box, choco_loc: Box) -> None:
-    moveTo(*get_random_cords(knife_loc), uniform(0.2,1), get_random_ease())
-    sleep(uniform(0.1, 0.5))
+    moveTo(*get_random_cords(knife_loc), uniform(0.1, 0.5), get_random_ease())
     click()
-    moveTo(*get_random_cords(choco_loc), uniform(0.2,1), get_random_ease())
-    sleep(uniform(0.1, 0.3))
+    moveTo(*get_random_cords(choco_loc), uniform(0.1, 0.5), get_random_ease())
     click()
 
 def check_chocolate_exists() -> bool:

@@ -28,8 +28,8 @@ def focus_game() -> bool:
 
 def open_inventory() -> None:
     """ If inventory is not open, then open it """
-    try:
-        find("./static/empty_inventory.png", confidence=0.5)
-    except ImageNotFoundException:
-        press("esc")
-
+    for _ in range(2):
+        try:
+            find("./static/empty_inventory.png", confidence=0.5)
+        except ImageNotFoundException:
+            press("esc")
